@@ -1,5 +1,6 @@
 import React from "react";
 import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
 
 const stats = [
   {
@@ -24,8 +25,13 @@ const stats = [
 ];
 
 const Countdown = () => {
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: false,
+  });
+
   return (
-    <div>
+    <div ref={ref}>
       <h1 className="font-plus-jakarta-sans text-4xl font-bold text-center text-[#0F0F0F]">
         We Provide Best Medical Services
       </h1>
@@ -48,13 +54,15 @@ const Countdown = () => {
             </figure>
             <div>
               <h2 className="font-plus-jakarta-sans font-extrabold text-3xl sm:text-4xl text-[#0F0F0F]">
-                <CountUp
-                  end={end}
-                  duration={5}
-                  enableScrollSpy
-                  scrollSpyOnce
-                  suffix="+"
-                />
+                {inView && (
+                  <CountUp
+                    end={end}
+                    duration={5}
+                    enableScrollSpy
+                    scrollSpyOnce
+                    suffix="+"
+                  />
+                )}
               </h2>
               <p className="text-[#0F0F0F99] font-plus-jakarta-sans text-sm sm:text-base font-semibold mt-1">
                 {label}
