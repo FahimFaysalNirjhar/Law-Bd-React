@@ -9,7 +9,7 @@ const Footer = () => {
     <>
       <NavLink to="/">
         <li>
-          <button className="font-mulishtext-lg font-medium">Home</button>
+          <button className="font-mulish text-lg font-medium">Home</button>
         </li>
       </NavLink>
       <NavLink to="/booking">
