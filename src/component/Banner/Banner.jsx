@@ -45,6 +45,7 @@ const Banner = () => {
         checkup or urgent consultation, book appointments in minutes and receive
         quality care you can trust.
       </p>
+      <div className="max-w-9/12 mx-auto mt-6 mb-12 flex flex-col lg:flex-row gap-6"></div>
     </div>
   );
 };

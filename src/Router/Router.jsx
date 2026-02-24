@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        loader: () =>
+          fetch(
+            "https://raw.githubusercontent.com/FahimFaysalNirjhar/Lawyer-Data/refs/heads/main/Lawyesrs.json",
+          ).then((res) => res.json()),
         Component: Home,
       },
     ],
