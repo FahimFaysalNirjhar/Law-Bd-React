@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import "../../App.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
 import Lawyer from "../Lawyer/Lawyer";
 
 const Lawyers = () => {
   const data = useLoaderData();
   const [showAll, setShowAll] = useState(false);
   const LawyersToShow = showAll ? data : data.slice(0, 6);
+  const navigation = useNavigation();
+
+  if (navigation.state === "loading") {
+    return (
+      <div className="flex justify-center items-center mt-28">
+        <span className="loading loading-ball loading-xs"></span>
+        <span className="loading loading-ball loading-sm"></span>
+        <span className="loading loading-ball loading-md"></span>
+        <span className="loading loading-ball loading-lg"></span>
+        <span className="loading loading-ball loading-xl"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2 pt-16 pb-16 md:pt-0">
