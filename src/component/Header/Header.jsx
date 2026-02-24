@@ -36,7 +36,7 @@ const Header = () => {
     </>
   );
   return (
-    <div className="bg-[#EFEFEF]">
+    <div>
       <div className="navbar md:max-w-10/12 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
