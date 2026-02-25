@@ -7,6 +7,7 @@ import {
   BarChart,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -81,6 +82,7 @@ const Booking = () => {
             <div style={{ minWidth: "500px", height: 400 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={margin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip formatter={(value) => `৳${value}`} />
