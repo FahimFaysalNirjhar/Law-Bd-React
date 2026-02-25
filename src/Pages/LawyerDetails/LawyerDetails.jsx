@@ -1,8 +1,9 @@
 import React from "react";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import { Link } from "react-router";
 import "../../App.css";
 import { CgInfo } from "react-icons/cg";
+import { addToLocalStorage } from "../../LocalStorage/LocalStorage";
 
 const LawyerDetails = () => {
   const { id } = useParams();
@@ -46,6 +47,15 @@ const LawyerDetails = () => {
 
   const availableToday = availableDays.includes(today);
   console.log(availableToday);
+
+  const navigate = useNavigate();
+
+  const handleBookAppoinment = (id) => {
+    const success = addToLocalStorage(id);
+    if (success) {
+      navigate("/booking?booked=true");
+    }
+  };
 
   return (
     <div className="px-4 sm:px-6">
@@ -198,7 +208,7 @@ const LawyerDetails = () => {
             {/* Book Button */}
             <div className="text-center mt-6">
               <button
-                onClick={() => handleAddDoctor?.(registrationNumber)}
+                onClick={() => handleBookAppoinment(licenseNumber)}
                 className="btn btn-wide text-[#176AE5] rounded-full border border-[#176AE5] hover:bg-[#176AE5] hover:text-white transition-colors duration-200"
               >
                 Book Appointment Now
