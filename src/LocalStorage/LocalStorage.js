@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 const getStoredID = () => {
-  const storedId = localStorage.getItem("doctors");
+  const storedId = localStorage.getItem("lawyers");
   if (storedId) {
     return JSON.parse(storedId);
   }
@@ -18,7 +18,7 @@ const addToLocalStorage = (id) => {
     return false;
   } else {
     storedId.push(id);
-    localStorage.setItem("doctors", JSON.stringify(storedId));
+    localStorage.setItem("lawyers", JSON.stringify(storedId));
     return true;
   }
 };
