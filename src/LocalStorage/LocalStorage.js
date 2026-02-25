@@ -13,7 +13,7 @@ const addToLocalStorage = (id) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "You have already booked an appointment with this doctor.",
+      text: "You have already booked an appointment with this lawyer.",
     });
     return false;
   } else {
@@ -23,4 +23,10 @@ const addToLocalStorage = (id) => {
   }
 };
 
-export { addToLocalStorage, getStoredID };
+const removeToLocal = (id) => {
+  const storedId = getStoredID();
+  const remainingId = storedId.filter((storedId) => storedId !== id);
+  localStorage.setItem("lawyers", JSON.stringify(remainingId));
+};
+
+export { addToLocalStorage, getStoredID, removeToLocal };

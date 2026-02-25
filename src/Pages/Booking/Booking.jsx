@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
-import { getStoredID } from "../../LocalStorage/LocalStorage";
+import { getStoredID, removeToLocal } from "../../LocalStorage/LocalStorage";
 import {
   Bar,
   BarChart,
@@ -11,6 +11,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import BookingDetails from "../../component/BookingDetails/BookingDetails";
 
 const Booking = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +29,7 @@ const Booking = () => {
     }
   }, [searchParams, setSearchParams]);
 
-  const [lawyerId] = useState(getStoredID());
+  const [lawyerId, setLawyerId] = useState(getStoredID());
 
   const lawyers = data.filter((lawyer) =>
     lawyerId.includes(lawyer.licenseNumber),
@@ -57,6 +58,13 @@ const Booking = () => {
     fee: lawyer.consultationFees,
   }));
 
+  const handleRemoveLawyer = (id) => {
+    removeToLocal(id);
+    setTimeout(() => {
+      setLawyerId(getStoredID());
+    }, 266);
+  };
+
   return (
     <div className="pt-10 pb-28">
       {lawyers.length === 0 ? (
@@ -77,49 +85,69 @@ const Booking = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-10/12 mx-auto bg-white rounded-2xl shadow-sm">
-          <div className="overflow-x-auto">
-            <div style={{ minWidth: "500px", height: 400 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={margin}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => `৳${value}`} />
-                  <Bar
-                    dataKey="fee"
-                    shape={(props) => {
-                      const { x, y, width, height, index } = props;
-                      if (
-                        x == null ||
-                        y == null ||
-                        width == null ||
-                        height == null
-                      )
-                        return null;
-                      return (
-                        <path
-                          d={getPath(
-                            Number(x),
-                            Number(y),
-                            Number(width),
-                            Number(height),
-                          )}
-                          stroke="none"
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      );
-                    }}
-                    label={{
-                      position: "top",
-                      formatter: (value) => `৳${value}`,
-                    }}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+        <>
+          <div className="max-w-10/12 mx-auto bg-white rounded-2xl shadow-sm">
+            <div className="overflow-x-auto">
+              <div style={{ minWidth: "500px", height: 400 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={margin}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => `৳${value}`} />
+                    <Bar
+                      dataKey="fee"
+                      shape={(props) => {
+                        const { x, y, width, height, index } = props;
+                        if (
+                          x == null ||
+                          y == null ||
+                          width == null ||
+                          height == null
+                        )
+                          return null;
+                        return (
+                          <path
+                            d={getPath(
+                              Number(x),
+                              Number(y),
+                              Number(width),
+                              Number(height),
+                            )}
+                            stroke="none"
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        );
+                      }}
+                      label={{
+                        position: "top",
+                        formatter: (value) => `৳${value}`,
+                      }}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="my-8 py-8 max-w-10/12 mx-auto">
+            <h1 className="font-plus-jakarta-sans text-[#141414] text-4xl font-extrabold text-center">
+              My Today Appointments
+            </h1>
+            <p className="mt-4 mb-8 text-[#0F0F0F] font-plus-jakarta-sans text-center">
+              Our platform connects you with verified, experienced lawyers
+              across various specialties — all at your convenience. Whether it's
+              a routine consultation or an urgent legal matter, book
+              appointments in minutes and receive quality counsel you can trust.
+            </p>
+            {lawyers.map((lawyer) => (
+              <BookingDetails
+                key={lawyer.id}
+                lawyer={lawyer}
+                handleRemoveLawyer={handleRemoveLawyer}
+              ></BookingDetails>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
