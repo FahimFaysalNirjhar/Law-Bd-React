@@ -1,6 +1,6 @@
 import React from "react";
 import "../../App.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const Lawyer = ({ lawyer }) => {
   const { img, experience, name, expertiseArea, licenseNumber } = lawyer;
@@ -52,7 +52,7 @@ const Lawyer = ({ lawyer }) => {
 
         {/* Button */}
         <div className="mt-5">
-          <Link to={"/"}>
+          <Link to={`/lawyerdetails/${licenseNumber}`}>
             <button className="w-full sm:w-auto px-8 py-2.5 rounded-full text-sm font-semibold text-[#176AE5] border border-[#176AE5] bg-transparent hover:bg-[#176AE5] hover:text-white transition-colors duration-200">
               View Details
             </button>
