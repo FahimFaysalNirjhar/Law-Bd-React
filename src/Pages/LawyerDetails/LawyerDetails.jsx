@@ -2,11 +2,14 @@ import React from "react";
 import { useLoaderData, useParams } from "react-router";
 import { Link } from "react-router";
 import "../../App.css";
+import { CgInfo } from "react-icons/cg";
 
 const LawyerDetails = () => {
   const { id } = useParams();
   const data = useLoaderData();
   const lawyer = data.find((lawyer) => lawyer.licenseNumber === id);
+
+  const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
   if (!lawyer) {
     return (
@@ -40,7 +43,9 @@ const LawyerDetails = () => {
     consultationFees,
     experience,
   } = lawyer;
-  console.log(licenseNumber);
+
+  const availableToday = availableDays.includes(today);
+  console.log(availableToday);
 
   return (
     <div className="px-4 sm:px-6">
@@ -129,6 +134,78 @@ const LawyerDetails = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div className="max-w-2xl mx-auto rounded-2xl px-6 md:px-10 py-8 shadow-md mb-10 border border-gray-100">
+        {/* Title */}
+        <h1 className="font-plus-jakarta-sans text-[#141414] text-2xl md:text-3xl font-bold text-center border-b-2 border-dashed border-[#0F0F0F33] pb-4">
+          Book an Appointment
+        </h1>
+
+        {/* Availability Row */}
+        <div className="flex flex-wrap justify-between items-center gap-3 py-4 border-b-2 border-dashed border-[#0F0F0F33]">
+          <h2 className="font-plus-jakarta-sans text-[#0F0F0F] text-lg font-bold">
+            Availability
+          </h2>
+          {availableToday ? (
+            <p className="font-plus-jakarta-sans text-sm font-medium text-[#09982F] rounded-full border border-[#09982F33] bg-[#09982F1A] px-4 py-1 flex gap-1 items-center justify-center">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>{" "}
+              Lawyer Available Today
+            </p>
+          ) : (
+            <p className="font-plus-jakarta-sans text-sm font-medium text-[#FF4D6D] rounded-full border border-[#FF4D6D33] bg-[#FF4D6D1A] px-4 py-1 flex justify-center items-center gap-1">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+              Lawyer Is Not Available Today
+            </p>
+          )}
+        </div>
+
+        {/* Body — only shown when available */}
+        {availableToday && (
+          <div className="mt-4">
+            {/* Notice Banner */}
+            <div className="flex items-start gap-2 rounded-xl bg-[#FFA0001A] text-[#FFA000] px-4 py-2 text-sm font-medium leading-snug">
+              <CgInfo className="text-lg shrink-0 mt-0.5" />
+              <span>
+                Due to high client demand, we are currently accepting
+                consultation appointments for today only. We appreciate your
+                understanding and cooperation.
+              </span>
+            </div>
+
+            {/* Book Button */}
+            <div className="text-center mt-6">
+              <button
+                onClick={() => handleAddDoctor?.(registrationNumber)}
+                className="btn btn-wide text-[#176AE5] rounded-full border border-[#176AE5] hover:bg-[#176AE5] hover:text-white transition-colors duration-200"
+              >
+                Book Appointment Now
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
