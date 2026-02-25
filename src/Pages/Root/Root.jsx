@@ -14,7 +14,7 @@ const Root = () => {
     const path = location.pathname;
 
     if (path === "/") {
-      document.title = "DocTalk";
+      document.title = "Law.BD";
     } else if (path === "/booking") {
       document.title = "Booking";
     } else if (path === "/contact_us") {
